@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:5.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - database:/data/db
+
+  backend:
+    container_name: backend
+    image: payment-payments-api-server:latest
+    environment:
+      - DBHOST=mongodb
+      - DBUSER=root
+      - DBPASS=pass
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+
+volumes:
+  database:
+    driver: local
